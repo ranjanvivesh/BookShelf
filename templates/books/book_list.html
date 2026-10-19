@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Browse books{% endblock %}
+
+{% block content %}
+  <h2>{% if genre %}{{ genre.name }}{% else %}All books{% endif %}</h2>
+  <div class="chips">
+    <a href="{% url 'book_list' %}">All</a>
+    {% for item in genres %}
+      <a href="?genre={{ item.slug }}">{{ item.name }}</a>
+    {% endfor %}
+  </div>
+
+  <div class="grid">
+    {% for book in page %}
+      {% include "books/_card.html" %}
+    {% empty %}
+      <p class="muted">No books found.</p>
+    {% endfor %}
+  </div>
+
+  <div class="pager">
+    {% if page.has_previous %}
+      <a href="?page={{ page.previous_page_number }}{% if genre %}&genre={{ genre.slug }}{% endif %}">Previous</a>
+    {% endif %}
+    <span class="muted">Page {{ page.number }} of {{ page.paginator.num_pages }}</span>
+    {% if page.has_next %}
+      <a href="?page={{ page.next_page_number }}{% if genre %}&genre={{ genre.slug }}{% endif %}">Next</a>
+    {% endif %}
+  </div>
+{% endblock %}

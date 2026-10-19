@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Search{% endblock %}
+
+{% block content %}
+  {% if q %}
+    <h2>Results for "{{ q }}"</h2>
+    <div class="grid">
+      {% for book in page %}
+        {% include "books/_card.html" %}
+      {% empty %}
+        <p class="muted">No books matched. Try a shorter query or an author name.</p>
+      {% endfor %}
+    </div>
+    <div class="pager">
+      {% if page.has_previous %}
+        <a href="?q={{ q|urlencode }}&page={{ page.previous_page_number }}">Previous</a>
+      {% endif %}
+      <span class="muted">Page {{ page.number }} of {{ page.paginator.num_pages }}</span>
+      {% if page.has_next %}
+        <a href="?q={{ q|urlencode }}&page={{ page.next_page_number }}">Next</a>
+      {% endif %}
+    </div>
+  {% else %}
+    <p class="muted">Type a title, author, or topic in the search box.</p>
+  {% endif %}
+{% endblock %}

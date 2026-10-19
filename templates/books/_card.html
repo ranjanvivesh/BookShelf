@@ -1,0 +1,25 @@
+<a class="card" href="{% url 'book_detail' book.pk %}">
+  {% if book.cover_url %}
+    <img src="{{ book.cover_url }}" alt="Cover of {{ book.title }}" loading="lazy">
+  {% else %}
+    <div class="nocover">No cover</div>
+  {% endif %}
+  <div class="card-title">{{ book.title }}</div>
+  <div class="card-sub">
+    {% for author in book.authors.all|slice:":2" %}
+      {{ author.name }}{% if not forloop.last %}, {% endif %}
+    {% empty %}
+      Unknown author
+    {% endfor %}
+  </div>
+  {% if book.openlibrary_rating %}
+    <div class="card-sub">Open Library: &#9733; {{ book.openlibrary_rating|floatformat:1 }}</div>
+  {% else %}
+    <div class="card-sub">Open Library: Not rated yet</div>
+  {% endif %}
+  {% if book.avg_rating %}
+    <div class="card-sub">BookShelf: &#9733; {{ book.avg_rating|floatformat:1 }}</div>
+  {% else %}
+    <div class="card-sub">BookShelf: Not rated yet</div>
+  {% endif %}
+</a>

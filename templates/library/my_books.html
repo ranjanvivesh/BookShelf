@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}My books{% endblock %}
+
+{% block content %}
+  <h1>My books</h1>
+  {% for label, entries in shelves %}
+    <h2>{{ label }} ({{ entries|length }})</h2>
+    <div class="grid">
+      {% for entry in entries %}
+        {% include "books/_card.html" with book=entry.book %}
+      {% empty %}
+        <p class="muted">No books on this shelf yet.</p>
+      {% endfor %}
+    </div>
+  {% endfor %}
+{% endblock %}

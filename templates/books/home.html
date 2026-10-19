@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {% if picks %}
+    <h2>Recommended for you</h2>
+    <div class="grid">
+      {% for book in picks %}
+        {% include "books/_card.html" %}
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% if top %}
+    <h2>Top rated</h2>
+    <div class="grid">
+      {% for book in top %}
+        {% include "books/_card.html" %}
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <h2>New on the shelf</h2>
+  <div class="grid">
+    {% for book in latest %}
+      {% include "books/_card.html" %}
+    {% empty %}
+      <p class="muted">No books with covers have been imported yet.</p>
+    {% endfor %}
+  </div>
+{% endblock %}

@@ -1,0 +1,175 @@
+:root {
+  --bg: #faf7f2;
+  --ink: #2b2b2b;
+  --accent: #7a4e2d;
+  --muted: #777;
+  --line: #e6dfd3;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--bg);
+  font-family: Georgia, serif;
+  line-height: 1.5;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+header {
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+}
+
+.bar,
+main {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 12px 16px;
+}
+
+.bar {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.brand {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.search {
+  display: flex;
+  flex: 1;
+  gap: 6px;
+  min-width: 220px;
+}
+
+input[type="search"] {
+  flex: 1;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+button,
+.btn {
+  padding: 7px 14px;
+  color: #fff;
+  font: inherit;
+  background: var(--accent);
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  display: block;
+  color: inherit;
+}
+
+.card img,
+.nocover {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  background: #e8e1d6;
+  border-radius: 6px;
+}
+
+.nocover {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+}
+
+.card-title {
+  margin-top: 6px;
+  font-size: 0.95rem;
+  font-weight: bold;
+}
+
+.card-sub,
+.muted {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.chips a {
+  display: inline-block;
+  margin: 0 6px 6px 0;
+  padding: 3px 10px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  font-size: 0.85rem;
+}
+
+.detail {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.detail img,
+.detail-cover {
+  width: 220px;
+}
+
+.detail .info {
+  flex: 1;
+  min-width: 260px;
+}
+
+.review {
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+}
+
+.pager {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.entry {
+  display: grid;
+  gap: 10px;
+  max-width: 460px;
+  margin: 16px 0;
+}
+
+.entry textarea,
+.entry select {
+  padding: 8px;
+  font: inherit;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.stars span {
+  color: #ccc;
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+.stars span.on {
+  color: #e0a100;
+}

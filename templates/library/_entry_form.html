@@ -1,0 +1,23 @@
+{% if user.is_authenticated %}
+  <form class="entry" method="post" action="{% url 'save_entry' book.pk %}">
+    {% csrf_token %}
+    <label for="status">Shelf</label>
+    <select id="status" name="status" data-autosubmit>
+      {% for value, label in status_choices %}
+        <option value="{{ value }}" {% if entry and entry.status == value %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+    <div class="stars" data-value="{{ entry.rating|default:0 }}" aria-label="Choose a rating">
+      {% for i in '12345' %}
+        <span data-n="{{ i }}" role="button" tabindex="0">&#9733;</span>
+      {% endfor %}
+    </div>
+    <input type="hidden" name="rating" value="{{ entry.rating|default:'' }}">
+    <textarea name="review" rows="4" maxlength="5000" placeholder="Write a review (optional)">{{ entry.review }}</textarea>
+    <button type="submit">Save</button>
+  </form>
+{% else %}
+  <p class="muted">
+    <a href="/accounts/login/">Log in</a> to shelve, rate and review this book.
+  </p>
+{% endif %}

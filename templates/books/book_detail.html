@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}{{ book.title }}{% endblock %}
+
+{% block content %}
+  <div class="detail">
+    <div>
+      {% if book.cover_url %}
+        <img src="{{ book.cover_url }}" alt="Cover of {{ book.title }}">
+      {% else %}
+        <div class="nocover detail-cover">No cover</div>
+      {% endif %}
+    </div>
+    <div class="info">
+      <h1>{{ book.title }}</h1>
+      <p>
+        by
+        {% for author in book.authors.all %}
+          {{ author.name }}{% if not forloop.last %}, {% endif %}
+        {% empty %}
+          Unknown author
+        {% endfor %}
+      </p>
+      <div class="chips">
+        {% for item in book.genres.all %}
+          <a href="{% url 'book_list' %}?genre={{ item.slug }}">{{ item.name }}</a>
+        {% endfor %}
+      </div>
+      {% if book.openlibrary_rating %}
+        <p>Open Library: &#9733; {{ book.openlibrary_rating|floatformat:1 }} from {{ book.openlibrary_rating_count }} rating{{ book.openlibrary_rating_count|pluralize }}</p>
+      {% else %}
+        <p class="muted">Open Library: Not rated yet</p>
+      {% endif %}
+      {% if stats.n %}
+        <p>BookShelf: &#9733; {{ stats.avg|floatformat:1 }} from {{ stats.n }} rating{{ stats.n|pluralize }}</p>
+      {% else %}
+        <p class="muted">BookShelf: Not rated yet</p>
+      {% endif %}
+      <p>{{ book.description|linebreaksbr|default:"No description available." }}</p>
+      {% include "library/_entry_form.html" %}
+    </div>
+  </div>
+
+  <h2>Readers also liked</h2>
+  {% if similar %}
+    <div class="grid">
+      {% for item in similar %}
+        {% include "books/_card.html" with book=item.similar_to %}
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="muted">No recommendations yet.</p>
+  {% endif %}
+
+  <h2>Reviews</h2>
+  {% for review in reviews %}
+    <div class="review">
+      <strong>{{ review.user.username }}</strong>
+      {% if review.rating %}&#9733; {{ review.rating }}{% endif %}
+      <p>{{ review.review|linebreaksbr }}</p>
+    </div>
+  {% empty %}
+    <p class="muted">No reviews yet.</p>
+  {% endfor %}
+{% endblock %}
