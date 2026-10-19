@@ -70,6 +70,20 @@ python manage.py test books
 The PostgreSQL role used for tests needs permission to create temporary test
 databases.
 
+## Search Open Library directly
+
+The search page searches both the local BookShelf database and Open Library.
+For example:
+
+```text
+http://127.0.0.1:8000/search/?q=Mistborn
+```
+
+Open Library results include an `Import to BookShelf` button. Importing a
+result creates the local book, authors, description, cover, and external
+rating, then opens the local book detail page. No Open Library result is saved
+until the import button is submitted.
+
 ## Deployment
 
 ```text

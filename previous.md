@@ -577,6 +577,49 @@ After deployment, load books with the Open Library command, run
 `python manage.py build_recommendations`, and schedule that command nightly if
 the hosting platform supports scheduled jobs.
 
+### Open Library direct search feature branch
+
+Status: **Implemented and validated on `feature/open-library-search`.**
+
+Added direct external search to `books/views.py` and
+`templates/books/search.html`:
+
+- Existing local PostgreSQL results remain available.
+- Each non-empty search also requests up to 12 results from
+  `https://openlibrary.org/search.json`.
+- Results show title, authors, cover, publication year, external rating, and
+  rating count when Open Library provides them.
+- Each external result has an `Import to BookShelf` POST action protected by
+  CSRF.
+- Import validates the Open Library work key, fetches the work, description,
+  ratings, and author names, creates or reuses the local `Book` and `Author`
+  records, then redirects to the local detail page.
+- Open Library request failures are surfaced as an error message while local
+  results remain usable.
+
+Added route:
+
+- `POST /books/import-open-library/`
+
+Updated:
+
+- `books/views.py`
+- `books/urls.py`
+- `templates/books/search.html`
+- `static/css/style.css`
+- `README.md`
+
+Validation:
+
+- `.\venv\Scripts\python.exe manage.py check` passed.
+- `http://127.0.0.1:8000/search/?q=Mistborn` returned HTTP 200 and displayed
+  Open Library results and import actions.
+- Importing `/works/OL5738148W` created `The Final Empire`, connected
+  Brandon Sanderson, fetched its external rating, and redirected to the local
+  detail page.
+
+This work is intentionally on a separate branch and has not changed `main`.
+
 ## Important continuation rule
 
 When a later step is completed, update this file rather than replacing it:

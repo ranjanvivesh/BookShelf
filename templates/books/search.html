@@ -5,11 +5,46 @@
 {% block content %}
   {% if q %}
     <h2>Results for "{{ q }}"</h2>
+    {% if open_library_error %}
+      <p class="error">{{ open_library_error }}</p>
+    {% endif %}
+    <h3>Bookshelf results</h3>
     <div class="grid">
       {% for book in page %}
         {% include "books/_card.html" %}
       {% empty %}
         <p class="muted">No books matched. Try a shorter query or an author name.</p>
+      {% endfor %}
+    </div>
+    <h3>Open Library results</h3>
+    <div class="external-results">
+      {% for result in open_library_results %}
+        <article class="external-book">
+          {% if result.cover_id %}
+            <img src="https://covers.openlibrary.org/b/id/{{ result.cover_id }}-M.jpg" alt="Cover of {{ result.title }}" loading="lazy">
+          {% else %}
+            <div class="external-cover nocover">No cover</div>
+          {% endif %}
+          <div>
+            <h3>{{ result.title }}</h3>
+            <p class="card-sub">
+              {% for author in result.authors %}{{ author }}{% if not forloop.last %}, {% endif %}{% empty %}Unknown author{% endfor %}
+            </p>
+            {% if result.rating %}
+              <p>Open Library: &#9733; {{ result.rating|floatformat:2 }} ({{ result.rating_count }} ratings)</p>
+            {% else %}
+              <p class="muted">Open Library: Not rated yet</p>
+            {% endif %}
+            {% if result.published_year %}<p class="card-sub">Published {{ result.published_year }}</p>{% endif %}
+            <form method="post" action="{% url 'import_open_library' %}">
+              {% csrf_token %}
+              <input type="hidden" name="work_key" value="{{ result.key }}">
+              <button type="submit">Import to BookShelf</button>
+            </form>
+          </div>
+        </article>
+      {% empty %}
+        <p class="muted">No Open Library books matched.</p>
       {% endfor %}
     </div>
     <div class="pager">

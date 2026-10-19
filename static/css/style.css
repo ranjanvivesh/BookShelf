@@ -149,6 +149,35 @@ button,
   margin: 20px 0;
 }
 
+.external-results {
+  display: grid;
+  gap: 14px;
+  max-width: 820px;
+}
+
+.external-book {
+  display: flex;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.external-book img,
+.external-cover {
+  width: 90px;
+  height: 135px;
+  flex: 0 0 90px;
+  object-fit: cover;
+}
+
+.external-book h3 {
+  margin: 0 0 4px;
+}
+
+.error {
+  color: #9b2c2c;
+}
+
 .entry {
   display: grid;
   gap: 10px;
